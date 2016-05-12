@@ -1,0 +1,32 @@
+{
+    "name": "kad-consistency",
+    "version": "0.0.1",
+    "description": "Kad wrapper with consistency improvements",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zmumi/kad-consistency.git"
+    },
+    "keywords": [
+        "kad",
+        "consistency",
+        "kademlia"
+    ],
+    "author": "Michał Żmuda <zmu.michal@gmail.com>",
+    "license": "LGPL-3.0",
+    "bugs": {
+        "url": "https://github.com/zmumi/kad-consistency/issues"
+    },
+    "homepage": "https://github.com/zmumi/kad-consistency#readme",
+    "devDependencies": {
+        "chai": "^2.2.0",
+        "coveralls": "^2.11.2",
+        "faker": "^2.1.2",
+        "mocha": "^2.2.4",
+        "sinon": "^1.14.1"
+    },
+    "dependencies": {
+        "kad": "^1.5.6",
+        "async": "2.0.0-rc.3"
+    }
+}
