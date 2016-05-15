@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="data.js"></script>
+</head>
+<body>
+<div id="tester" style="width:13cm;height:13cm;"></div>
+<script>
+    var data = [{
+        'y': DATA['true']['y'],
+        'x': DATA['true']['x'],
+        'name': 'With modifications',
+        'marker': {'color': '#3D9970'},
+        'type': 'box'
+    }, {
+        'y': DATA['false']['y'],
+        'x': DATA['false']['x'],
+        'name': 'Original algorithm',
+        'marker': {'color': '#FF4136'},
+        'type': 'box'
+    }];
+    var layout = {
+        xaxis: {
+            title: 'Probability of value poisoning peer (%)',
+            showgrid: false,
+            zeroline: false
+        },
+        yaxis: {
+            title: 'Wrong value retrieved (%)',
+            showline: false
+        },
+        legend: {
+            x: 0,
+            y: 1
+        },
+        boxmode: 'group'
+    };
+    Plotly.newPlot(document.getElementById('tester'), data, layout);
+</script>
+</body>
+</html>
