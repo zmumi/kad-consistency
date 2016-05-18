@@ -237,22 +237,22 @@ function run(opts, callback) {
 var params = JSON.parse(process.argv[2] || 'false') || {
     useExtension: false,
     peerOptions: {
-      requestTimeout: 30,
+      requestTimeout: 500,
       maxPutTimeoutsRatio: 0.3,
       maxPutConflictsRatio: 0.2,
       minGetCommonRatio: 0.6
     },
     scenario: {
-      peerCount: 10,
-      objectCount: 31,
-      readsPerObject: 1,
-      updatesPerObject: 1,
-      postUpdateReadsPerObject: 1
+      peerCount: 101,
+      objectCount: 127,
+      readsPerObject: 7,
+      updatesPerObject: 0,
+      postUpdateReadsPerObject: 0
     },
     malfunctions: {
       messageLossProbability: 0.0,
       valuePoisoningProbability: 0.0,
-      publisherPoisoningProbability: 0.9999,
+      publisherPoisoningProbability: 0.0,
       rationalPeerProbability: 0.0
     },
     runName: 'results'
