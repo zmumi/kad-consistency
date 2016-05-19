@@ -38,6 +38,7 @@ function defaultGetPoints(data) {
     publisherPoisoningProbability: data.options.malfunctions.publisherPoisoningProbability * 100,
     rationalPeerProbability: data.options.malfunctions.rationalPeerProbability * 100,
     maxPutTimeoutsRatio: data.options.peerOptions.maxPutTimeoutsRatio * 100,
+    maxGetTimeoutsRatio: data.options.peerOptions.maxGetTimeoutsRatio * 100,
     maxPutConflictsRatio: data.options.peerOptions.maxPutConflictsRatio * 100,
     minGetCommonRatio: data.options.peerOptions.minGetCommonRatio * 100,
   };
@@ -53,7 +54,7 @@ function defaultGetPoints(data) {
         var y = data.results[operation][serie] / data.results[operation].count * 100;
         points.push({group: id, x: xs[x], y: y});
         points.push({group: id + ext, x: xs[x], y: y});
-        points.push({group: id + ext + loss, x: xs[x], y: y})
+        points.push({group: id + ext + loss, x: xs[x], y: y});
       }
     }
   }
