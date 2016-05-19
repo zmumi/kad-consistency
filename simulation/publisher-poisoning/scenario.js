@@ -59,16 +59,13 @@ var mutators = [
   }
 ];
 
-var getGroup = function (data) {
-  return data.options.useExtension
-};
-var getX = function (data) {
-  return data.options.malfunctions.publisherPoisoningProbability * 100
-};
-var getY = function (data) {
-  return data.results.update.failures / data.results.update.count * 100
-};
-var dataJsTransformer = getRawOutputToDataJsTransformer(getGroup, getX, getY);
+var dataJsTransformer = getRawOutputToDataJsTransformer(function (data) {
+  return [{
+    group: data.options.useExtension,
+    x: data.options.malfunctions.publisherPoisoningProbability * 100,
+    y: data.results.update.failures / data.results.update.count * 100
+  }]
+});
 
 async.eachLimit(mutateParameters(defaultParameters, mutators), 4, runSeparateProcess, function (err, done) {
   fs.readFile(__dirname + '/results.raw', 'utf8', function (err, data) {
