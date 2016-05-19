@@ -51,21 +51,21 @@ var mutators = [
       return params
     }
   }, {
-    values: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8],
+    values: [0, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56],
     setter: function (params, val) {
       params.malfunctions.rationalPeerProbability = val;
+      return params
+    }
+  }, {
+    values: [0, 0.02],
+    setter: function (params, val) {
+      params.malfunctions.messageLossProbability = val;
       return params
     }
   }
 ];
 
-var dataJsTransformer = getRawOutputToDataJsTransformer(function (data) {
-  return [{
-    group: data.options.useExtension,
-    x: data.options.malfunctions.rationalPeerProbability * 100,
-    y: data.results.get.value_failures / data.results.get.count * 100
-  }]
-});
+var dataJsTransformer = getRawOutputToDataJsTransformer();
 
 async.eachLimit(mutateParameters(defaultParameters, mutators), 4, runSeparateProcess, function (err, done) {
   fs.readFile(__dirname + '/results.raw', 'utf8', function (err, data) {

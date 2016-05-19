@@ -51,7 +51,7 @@ var mutators = [
       return params
     }
   }, {
-    values: [0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28],
+    values: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.20],
     setter: function (params, val) {
       params.malfunctions.messageLossProbability = val;
       return params
@@ -59,16 +59,10 @@ var mutators = [
   }
 ];
 
-var dataJsTransformer = getRawOutputToDataJsTransformer(function (data) {
-  return [{
-    group: data.options.useExtension,
-    x: data.options.malfunctions.messageLossProbability * 100,
-    y: data.results.post_update_get.value_failures / data.results.post_update_get.count * 100
-  }]
-});
+var dataJsTransformer = getRawOutputToDataJsTransformer();
 
 async.eachLimit(mutateParameters(defaultParameters, mutators), 12, runSeparateProcess, function (err, done) {
-  fs.readFile(__dirname +'/results.raw', 'utf8', function (err, data) {
+  fs.readFile(__dirname + '/results.raw', 'utf8', function (err, data) {
     dataJsTransformer(data, function (err, js) {
       fs.writeFile(__dirname + '/data.js', js, done);
     })
