@@ -3,7 +3,6 @@
 var fs = require('fs');
 var async = require('async');
 var kad = require('kad');
-var inherits = require('util').inherits;
 var consistency = require('../index'); // replace with: require('kad-consistency');
 var Node = consistency.ConsistentNode(kad.Node);
 var TestTransport = require('./test-transport');
@@ -107,17 +106,17 @@ function run(opts, callback) {
   var PORT_OFFSET = 3000;
   var CONNECT_NEIGHBOURHOOD = [-2, -1, 1, 2];
   var WARM_UP_QUERIES = 20;
+  var CONCURRENT_OPS = 10;
 
   console.log('Starting execution with params:', opts);
 
-  TestTransport.messageLossProbability = opts.malfunctions.messageLossProbability;
   var objectNumbers = range(opts.scenario.objectCount);
   var peers = getPeers(opts, PORT_OFFSET);
   var results = initResults();
 
   function startPeers(callback) {
     var peerCount = opts.scenario.peerCount;
-    async.eachSeries(peers, function (peer, done) {
+    async.eachLimit(peers, CONCURRENT_OPS, function (peer, done) {
       async.each(CONNECT_NEIGHBOURHOOD, function (i, done) {
         var neighbourPort = peer.port + i;
         if (neighbourPort < PORT_OFFSET) neighbourPort += peerCount;
@@ -136,17 +135,18 @@ function run(opts, callback) {
       for (var i = 0; i < WARM_UP_QUERIES; i++) {
         queries[i] = i;
       }
-      async.eachSeries(queries, function (i, done) {
+      async.eachLimit(queries, CONCURRENT_OPS, function (i, done) {
         peer.get(peer.port + '' + i, ignoreError(done));
       }, done)
     }, function () {
-      setTimeout(callback, 5000)
+      TestTransport.messageLossProbability = opts.malfunctions.messageLossProbability;
+      callback();
     })
   }
 
   function doPuts(callback) {
     var start = Date.now();
-    async.eachSeries(objectNumbers, function (i, done) {
+    async.eachLimit(objectNumbers, CONCURRENT_OPS, function (i, done) {
       var peer = peers[i % opts.scenario.peerCount];
       peer.put('KEY' + i, 'VALUE-0', function (err) {
         if (err) results.put.failures += 1;
@@ -164,7 +164,7 @@ function run(opts, callback) {
     var updateNumbers = range(1, opts.scenario.updatesPerObject + 1);
 
     async.eachSeries(updateNumbers, function (updateNumber, done) {
-      async.eachSeries(objectNumbers, function (i, done) {
+      async.eachLimit(objectNumbers, CONCURRENT_OPS, function (i, done) {
         var peer = peers[i % opts.scenario.peerCount];
         peer.put('KEY' + i, 'VALUE-' + updateNumber, function (err) {
           if (err) results.update.failures += 1;
@@ -183,7 +183,7 @@ function run(opts, callback) {
     var start = Date.now();
     var reads = range(opts.scenario.objectCount * readsPerObject);
 
-    async.eachSeries(reads, function (i, done) {
+    async.eachLimit(reads, CONCURRENT_OPS, function (i, done) {
       var peer = peers[i % opts.scenario.peerCount];
       peer.get('KEY' + (i % opts.scenario.objectCount), function (err, retrieved) {
         if (err) getResults.failures += 1;
@@ -211,12 +211,21 @@ function run(opts, callback) {
     doGets(expected, readsPerObject, getResults, callback);
   }
 
+  function sleep(callback) {
+    setTimeout(callback, 300);
+  }
+
   async.waterfall([
     startPeers,
+    sleep,
     doWarmUp,
+    sleep,
     doPuts,
+    sleep,
     doFirstGets,
+    sleep,
     doUpdates,
+    sleep,
     doPostUpdateGets
   ], function () {
     async.eachSeries(peers, function (peer, done) {
@@ -237,17 +246,18 @@ function run(opts, callback) {
 var params = JSON.parse(process.argv[2] || 'false') || {
     useExtension: false,
     peerOptions: {
-      requestTimeout: 500,
-      maxPutTimeoutsRatio: 0.3,
-      maxPutConflictsRatio: 0.2,
-      minGetCommonRatio: 0.6
+      requestTimeout: 24,
+      maxPutTimeoutsRatio: 0.2,
+      maxPutConflictsRatio: 0.1,
+      minGetCommonRatio: 0.51,
+      maxGetTimeoutsRatio: 0.4
     },
     scenario: {
-      peerCount: 101,
-      objectCount: 127,
-      readsPerObject: 7,
-      updatesPerObject: 0,
-      postUpdateReadsPerObject: 0
+      peerCount: 128,
+      objectCount: 128,
+      readsPerObject: 0,
+      updatesPerObject: 8,
+      postUpdateReadsPerObject: 8
     },
     malfunctions: {
       messageLossProbability: 0.0,
