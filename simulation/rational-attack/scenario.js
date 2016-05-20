@@ -18,16 +18,17 @@ var defaultParameters = {
   useExtension: false,
   peerOptions: {
     requestTimeout: 100,
-    maxPutTimeoutsRatio: 0.3,
-    maxPutConflictsRatio: 0.2,
-    minGetCommonRatio: 0.6
+    maxPutTimeoutsRatio: 0.2,
+    maxPutConflictsRatio: 0.1,
+    minGetCommonRatio: 0.51,
+    maxGetTimeoutsRatio: 0.49
   },
   scenario: {
-    peerCount: 101,
-    objectCount: 127,
-    readsPerObject: 7,
-    updatesPerObject: 0,
-    postUpdateReadsPerObject: 0
+    peerCount: 128,
+    objectCount: 160,
+    readsPerObject: 0,
+    updatesPerObject: 8,
+    postUpdateReadsPerObject: 8
   },
   malfunctions: {
     messageLossProbability: 0.0,

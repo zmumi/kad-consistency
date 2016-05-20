@@ -18,15 +18,16 @@ var defaultParameters = {
   useExtension: false,
   peerOptions: {
     requestTimeout: 100,
-    maxPutTimeoutsRatio: 0.3,
-    maxPutConflictsRatio: 0.2,
-    minGetCommonRatio: 0.6
+    maxPutTimeoutsRatio: 0.2,
+    maxPutConflictsRatio: 0.1,
+    minGetCommonRatio: 0.51,
+    maxGetTimeoutsRatio: 0.49
   },
   scenario: {
-    peerCount: 101,
-    objectCount: 127,
+    peerCount: 128,
+    objectCount: 160,
     readsPerObject: 0,
-    updatesPerObject: 7,
+    updatesPerObject: 8,
     postUpdateReadsPerObject: 0
   },
   malfunctions: {
@@ -51,13 +52,13 @@ var mutators = [
       return params
     }
   }, {
-    values: [0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28],
+    values: [0, 0.03, 0.06, 0.09, 0.12, 0.15, 0.18, 0.21],
     setter: function (params, val) {
       params.malfunctions.publisherPoisoningProbability = val;
       return params
     }
   }, {
-    values: [0, 0.02],
+    values: [0, 0.02, 0.04, 0.06],
     setter: function (params, val) {
       params.malfunctions.messageLossProbability = val;
       return params
