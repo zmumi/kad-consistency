@@ -17,7 +17,7 @@ function runSeparateProcess(param, done) {
 var defaultParameters = {
   useExtension: false,
   peerOptions: {
-    requestTimeout: 40,
+    requestTimeout: 300,
     maxPutTimeoutsRatio: 0.2,
     maxPutConflictsRatio: 0.1,
     minGetCommonRatio: 0.51,
@@ -53,7 +53,7 @@ var mutators = [
       return params
     }
   }, {
-    values: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.20],
+    values: [0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1],
     setter: function (params, val) {
       params.malfunctions.messageLossProbability = val;
       return params
