@@ -17,7 +17,7 @@ function runSeparateProcess(param, done) {
 var defaultParameters = {
   useExtension: false,
   peerOptions: {
-    requestTimeout: 700,
+    requestTimeout: 1000,
     maxPutTimeoutsRatio: 0.2,
     maxPutConflictsRatio: 0.1,
     minGetCommonRatio: 0.51,
