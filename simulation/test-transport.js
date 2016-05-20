@@ -25,6 +25,15 @@ TestTransport.prototype._send = function (data, contact) {
   var shouldDrop = Math.random() < TestTransport.messageLossProbability;
   if (TestTransport.all[contact.port] && !shouldDrop) {
     TestTransport.all[contact.port].receive(data);
+  } else {
+    var message = kad.Message.fromBuffer(data);
+    var pendingCall = this._pendingCalls[message.id];
+    if (pendingCall) {
+      var callback = pendingCall.callback;
+      pendingCall.callback = function () {
+      };
+      callback(new Error('test-transport-timeout'));
+    }
   }
 };
 
