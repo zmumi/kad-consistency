@@ -50,4 +50,4 @@ var mutators = [
   }
 ];
 
-run(mutateParameters(defaultParameters, mutators), __dirname);
+run(mutateParameters(defaultParameters, mutators), __dirname, 12);

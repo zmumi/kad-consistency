@@ -14,9 +14,9 @@ function runSeparateProcess(param, done) {
   });
 }
 
-function run(parameters, resultsDir) {
+function run(parameters, resultsDir, concurrencyLimit) {
   var dataJsTransformer = getRawOutputToDataJsTransformer();
-  async.eachLimit(parameters, 4, runSeparateProcess, function (err, done) {
+  async.eachLimit(parameters, concurrencyLimit || 4, runSeparateProcess, function (err, done) {
     fs.readFile(resultsDir + '/results.raw', 'utf8', function (err, data) {
       dataJsTransformer(data, function (err, js) {
         fs.writeFile(resultsDir + '/data.js', js, done);

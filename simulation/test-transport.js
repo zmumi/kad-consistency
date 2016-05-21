@@ -24,7 +24,11 @@ TestTransport.prototype._open = function (done) {
 TestTransport.prototype._send = function (data, contact) {
   var shouldDrop = Math.random() < TestTransport.messageLossProbability;
   if (TestTransport.all[contact.port] && !shouldDrop) {
-    TestTransport.all[contact.port].receive(data);
+    try {
+      TestTransport.all[contact.port].receive(data);
+    } catch (e) {
+      console.error(e)
+    }
   } else {
     var message = kad.Message.fromBuffer(data);
     var pendingCall = this._pendingCalls[message.id];
@@ -32,7 +36,9 @@ TestTransport.prototype._send = function (data, contact) {
       var callback = pendingCall.callback;
       pendingCall.callback = function () {
       };
-      callback(new Error('test-transport-timeout'));
+      var error = new Error('test-transport-timeout');
+      error.code = 'ETIMEDOUT';
+      callback(error);
     }
   }
 };
