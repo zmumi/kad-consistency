@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var async = require('async');
+var crypto = require('crypto');
 var kad = require('kad');
 var consistency = require('../index'); // replace with: require('kad-consistency');
 var Node = consistency.ConsistentNode(kad.Node);
@@ -22,8 +23,8 @@ function range(start, stop) {
 
 function ignoreError(fun) {
   return function (err, x, y, z) {
-    //if (err) console.error(err);
-    fun(null, x, y, z)
+    if (err) console.error(err);
+    setImmediate(fun.bind(null, null, x, y, z));
   }
 }
 
@@ -40,7 +41,9 @@ function getNodeOptions(port, opts) {
   for (var key in opts.peerOptions) {
     peerOptions[key] = opts.peerOptions[key]
   }
-  kad.constants.T_RESPONSETIMEOUT = opts.peerOptions.requestTimeout ? opts.peerOptions.requestTimeout + 5 : 200;
+  kad.constants.T_RESPONSETIMEOUT = opts.peerOptions.requestTimeout
+    ? opts.peerOptions.requestTimeout + 5
+    : kad.constants.T_RESPONSETIMEOUT;
 
   return peerOptions;
 }
@@ -104,7 +107,7 @@ function initResults() {
 
 function run(opts, callback) {
   var PORT_OFFSET = 3000;
-  var CONNECT_NEIGHBOURHOOD = [-2, -1, 1, 2];
+  var CONNECT_NEIGHBOURHOOD = range(opts.scenario.peerCount / 8, opts.scenario.peerCount / 4).map(Math.round);
   var WARM_UP_QUERIES = 20;
   var CONCURRENT_OPS = 10;
 
@@ -119,8 +122,8 @@ function run(opts, callback) {
     async.eachLimit(peers, CONCURRENT_OPS, function (peer, done) {
       async.each(CONNECT_NEIGHBOURHOOD, function (i, done) {
         var neighbourPort = peer.port + i;
-        if (neighbourPort < PORT_OFFSET) neighbourPort += peerCount;
-        if (neighbourPort >= PORT_OFFSET + peerCount) neighbourPort -= peerCount;
+        while (neighbourPort < PORT_OFFSET) neighbourPort += peerCount;
+        while (neighbourPort >= PORT_OFFSET + peerCount) neighbourPort -= peerCount;
         peer.connect(kad.contacts.AddressPortContact({
           address: '127.0.0.1',
           port: neighbourPort
@@ -136,7 +139,7 @@ function run(opts, callback) {
         queries[i] = i;
       }
       async.eachLimit(queries, CONCURRENT_OPS, function (i, done) {
-        peer.get(peer.port + '' + i, ignoreError(done));
+        peer._router.findNode(crypto.randomBytes(32).toString('hex'), ignoreError(done));
       }, done)
     }, function () {
       TestTransport.messageLossProbability = opts.malfunctions.messageLossProbability;
@@ -246,7 +249,7 @@ function run(opts, callback) {
 var params = JSON.parse(process.argv[2] || 'false') || {
     useExtension: false,
     peerOptions: {
-      requestTimeout: 24,
+      requestTimeout: 5000,
       maxPutTimeoutsRatio: 0.2,
       maxPutConflictsRatio: 0.1,
       minGetCommonRatio: 0.51,
@@ -254,10 +257,10 @@ var params = JSON.parse(process.argv[2] || 'false') || {
     },
     scenario: {
       peerCount: 128,
-      objectCount: 128,
-      readsPerObject: 0,
-      updatesPerObject: 8,
-      postUpdateReadsPerObject: 8
+      objectCount: 160,
+      readsPerObject: 2,
+      updatesPerObject: 0,
+      postUpdateReadsPerObject: 0
     },
     malfunctions: {
       messageLossProbability: 0.0,
