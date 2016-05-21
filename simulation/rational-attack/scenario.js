@@ -42,7 +42,7 @@ var mutators = [
       return params
     }
   }, {
-    values: [0, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56],
+    values: [0, 0.08, 0.16, 0.24, 0.32, 0.40],
     setter: function (params, val) {
       params.malfunctions.rationalPeerProbability = val;
       return params

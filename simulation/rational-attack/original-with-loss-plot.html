@@ -9,38 +9,38 @@
 <script>
     var colors = ['#3D9970', '#FF4136', '#e6b800', 'blue', 'black', 'violet'];
     var data = [{
-        'y': DATA['rationalPeerProbability@get.value_failures&extensions=false&messageLossProbability=0.04']['y'],
-        'x': DATA['rationalPeerProbability@get.value_failures&extensions=false&messageLossProbability=0.04']['x'],
+        'y': DATA['rationalPeerProbability@post_update_get.value_failures&extensions=false&messageLossProbability=0.04']['y'],
+        'x': DATA['rationalPeerProbability@post_update_get.value_failures&extensions=false&messageLossProbability=0.04']['x'],
         'name': 'Value mismatch failures (with 4% message loss)',
         'marker': {'color': colors[0]},
         'type': 'box'
     }, {
-        'y': DATA['rationalPeerProbability@get.failures&extensions=false&messageLossProbability=0.04']['y'],
-        'x': DATA['rationalPeerProbability@get.failures&extensions=false&messageLossProbability=0.04']['x'],
+        'y': DATA['rationalPeerProbability@post_update_get.failures&extensions=false&messageLossProbability=0.04']['y'],
+        'x': DATA['rationalPeerProbability@post_update_get.failures&extensions=false&messageLossProbability=0.04']['x'],
         'name': 'Get operation failures (with 4% message loss)',
         'marker': {'color': colors[1]},
         'type': 'box'
     }, {
-        'y': DATA['rationalPeerProbability@get.value_failures&extensions=false&messageLossProbability=0.02']['y'],
-        'x': DATA['rationalPeerProbability@get.value_failures&extensions=false&messageLossProbability=0.02']['x'],
+        'y': DATA['rationalPeerProbability@post_update_get.value_failures&extensions=false&messageLossProbability=0.02']['y'],
+        'x': DATA['rationalPeerProbability@post_update_get.value_failures&extensions=false&messageLossProbability=0.02']['x'],
         'name': 'Value mismatch failures (with 2% message loss)',
         'marker': {'color': colors[2]},
         'type': 'box'
     }, {
-        'y': DATA['rationalPeerProbability@get.failures&extensions=false&messageLossProbability=0.02']['y'],
-        'x': DATA['rationalPeerProbability@get.failures&extensions=false&messageLossProbability=0.02']['x'],
+        'y': DATA['rationalPeerProbability@post_update_get.failures&extensions=false&messageLossProbability=0.02']['y'],
+        'x': DATA['rationalPeerProbability@post_update_get.failures&extensions=false&messageLossProbability=0.02']['x'],
         'name': 'Get operation failures (with 2% message loss)',
         'marker': {'color': colors[3]},
         'type': 'box'
     }, {
-        'y': DATA['rationalPeerProbability@get.value_failures&extensions=false&messageLossProbability=0']['y'],
-        'x': DATA['rationalPeerProbability@get.value_failures&extensions=false&messageLossProbability=0']['x'],
+        'y': DATA['rationalPeerProbability@post_update_get.value_failures&extensions=false&messageLossProbability=0']['y'],
+        'x': DATA['rationalPeerProbability@post_update_get.value_failures&extensions=false&messageLossProbability=0']['x'],
         'name': 'Value mismatch failures (with no message loss)',
         'marker': {'color': colors[4]},
         'type': 'box'
     }, {
-        'y': DATA['rationalPeerProbability@get.failures&extensions=false&messageLossProbability=0']['y'],
-        'x': DATA['rationalPeerProbability@get.failures&extensions=false&messageLossProbability=0']['x'],
+        'y': DATA['rationalPeerProbability@post_update_get.failures&extensions=false&messageLossProbability=0']['y'],
+        'x': DATA['rationalPeerProbability@post_update_get.failures&extensions=false&messageLossProbability=0']['x'],
         'name': 'Get operation failures (with no message loss)',
         'marker': {'color': colors[5]},
         'type': 'box'
