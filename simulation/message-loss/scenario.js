@@ -31,7 +31,7 @@ var defaultParameters = {
 var mutators = [
   {
     //values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-    values: [1, 2, 3],
+    values: [1],
     setter: function (params) {
       return params
     }
@@ -42,7 +42,7 @@ var mutators = [
       return params
     }
   }, {
-    values: [0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1],
+    values: [0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12],
     setter: function (params, val) {
       params.malfunctions.messageLossProbability = val;
       return params
