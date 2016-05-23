@@ -43,6 +43,13 @@ function defaultGetPoints(data) {
     minGetCommonRatio: data.options.peerOptions.minGetCommonRatio * 100,
   };
 
+  var multipliers = {
+    value_failures: 100,
+    failures: 100,
+    time: 1,
+    count: 1
+  };
+
   var ext = '&extensions=' + data.options.useExtension;
   var loss = '&messageLossProbability=' + data.options.malfunctions.messageLossProbability;
 
@@ -51,7 +58,7 @@ function defaultGetPoints(data) {
     for (var serie in data.results[operation]) {
       for (var x in xs) {
         var id = x + '@' + operation + '.' + serie;
-        var y = data.results[operation][serie] / data.results[operation].count * 100;
+        var y = data.results[operation][serie] / data.results[operation].count * multipliers[serie];
         points.push({group: id, x: xs[x], y: y});
         points.push({group: id + ext, x: xs[x], y: y});
         points.push({group: id + ext + loss, x: xs[x], y: y});

@@ -109,7 +109,7 @@ function run(opts, callback) {
   var PORT_OFFSET = 3000;
   var CONNECT_NEIGHBOURHOOD = range(opts.scenario.peerCount / 8, opts.scenario.peerCount / 4).map(Math.round);
   var WARM_UP_QUERIES = 20;
-  var CONCURRENT_OPS = 10;
+  var CONCURRENT_OPS = opts.concurrentOps;
 
   console.log('Starting execution with params:', opts);
 
@@ -248,6 +248,7 @@ function run(opts, callback) {
 
 var params = JSON.parse(process.argv[2] || 'false') || {
     useExtension: true,
+    concurrentOps: 10,
     peerOptions: {
       requestTimeout: 400,
       maxPutTimeoutsRatio: 0.3,
