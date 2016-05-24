@@ -6,9 +6,9 @@ var run = require('../scenario-helper').run;
 var defaultParameters = {
   useExtension: false,
   transportLatency: 0,
-  concurrentOps: 10,
+  concurrentOps: 1,
   peerOptions: {
-    requestTimeout: 1000,
+    requestTimeout: 60,
     maxPutTimeoutsRatio: 0.3,
     maxPutConflictsRatio: 0.2,
     minGetCommonRatio: 0.51,
@@ -19,7 +19,7 @@ var defaultParameters = {
     objectCount: 160,
     readsPerObject: 0,
     updatesPerObject: 8,
-    postUpdateReadsPerObject: 0
+    postUpdateReadsPerObject: 8
   },
   malfunctions: {
     messageLossProbability: 0.0,
@@ -27,7 +27,7 @@ var defaultParameters = {
     publisherPoisoningProbability: 0.0,
     rationalPeerProbability: 0.0
   },
-  runName: 'publisher-poisoning/results'
+  runName: 'latency/results'
 };
 
 var mutators = [
@@ -38,21 +38,16 @@ var mutators = [
       return params
     }
   }, {
-    values: [true],
+    values: [true, false],
     setter: function (params, val) {
       params.useExtension = val;
       return params
     }
   }, {
-    values: [0, 0.03, 0.06, 0.09, 0.12, 0.15, 0.18, 0.21, 0.24],
+    values: [0, 10, 20, 30, 40, 50, 60, 70, 80],
     setter: function (params, val) {
-      params.malfunctions.publisherPoisoningProbability = val;
-      return params
-    }
-  }, {
-    values: [0, 0.01, 0.02, 0.03, 0.04],
-    setter: function (params, val) {
-      params.malfunctions.messageLossProbability = val;
+      params.transportLatency = val;
+      params.peerOptions.requestTimeout = val + 60;
       return params
     }
   }

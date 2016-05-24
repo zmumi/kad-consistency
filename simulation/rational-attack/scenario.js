@@ -5,6 +5,7 @@ var run = require('../scenario-helper').run;
 
 var defaultParameters = {
   useExtension: false,
+  transportLatency: 0,
   concurrentOps: 10,
   peerOptions: {
     requestTimeout: 1000,

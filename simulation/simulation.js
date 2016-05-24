@@ -143,6 +143,7 @@ function run(opts, callback) {
       }, done)
     }, function () {
       TestTransport.messageLossProbability = opts.malfunctions.messageLossProbability;
+      TestTransport.latency = opts.transportLatency;
       callback();
     })
   }
@@ -248,6 +249,7 @@ function run(opts, callback) {
 
 var params = JSON.parse(process.argv[2] || 'false') || {
     useExtension: true,
+    transportLatency: 0,
     concurrentOps: 10,
     peerOptions: {
       requestTimeout: 400,

@@ -14,6 +14,7 @@ function TestTransport(contact, options) {
 }
 
 TestTransport.messageLossProbability = 0;
+TestTransport.latency = 0;
 TestTransport.all = {};
 
 TestTransport.prototype._open = function (done) {
@@ -24,11 +25,13 @@ TestTransport.prototype._open = function (done) {
 TestTransport.prototype._send = function (data, contact) {
   var shouldDrop = Math.random() < TestTransport.messageLossProbability;
   if (TestTransport.all[contact.port] && !shouldDrop) {
-    try {
-      TestTransport.all[contact.port].receive(data);
-    } catch (e) {
-      console.error(e)
-    }
+    setTimeout(function () {
+      try {
+        TestTransport.all[contact.port].receive(data);
+      } catch (e) {
+        console.error(e)
+      }
+    }, TestTransport.latency)
   } else {
     var message = kad.Message.fromBuffer(data);
     var pendingCall = this._pendingCalls[message.id];

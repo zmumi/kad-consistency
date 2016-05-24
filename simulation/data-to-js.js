@@ -41,6 +41,7 @@ function defaultGetPoints(data) {
     maxGetTimeoutsRatio: data.options.peerOptions.maxGetTimeoutsRatio * 100,
     maxPutConflictsRatio: data.options.peerOptions.maxPutConflictsRatio * 100,
     minGetCommonRatio: data.options.peerOptions.minGetCommonRatio * 100,
+    latency: data.options.transportLatency,
   };
 
   var multipliers = {
