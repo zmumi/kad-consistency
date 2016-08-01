@@ -11,19 +11,19 @@
     var data = [{
         'y': DATA['messageLossProbability@post_update_get.value_failures&extensions=true']['y'],
         'x': DATA['messageLossProbability@post_update_get.value_failures&extensions=true']['x'],
-        'name': 'Value mismatch failures',
+        'name': 'Wrong value on lookup',
         'marker': {'color': colors[0]},
         'type': 'box'
     }, {
         'y': DATA['messageLossProbability@post_update_get.failures&extensions=true']['y'],
         'x': DATA['messageLossProbability@post_update_get.failures&extensions=true']['x'],
-        'name': 'Get operation failures',
+        'name': 'Lookup operation errors',
         'marker': {'color': colors[1]},
         'type': 'box'
     }, {
         'y': DATA['messageLossProbability@update.failures&extensions=true']['y'],
         'x': DATA['messageLossProbability@update.failures&extensions=true']['x'],
-        'name': 'Update operation failures',
+        'name': 'Update operation errors',
         'marker': {'color': colors[2]},
         'type': 'box'
     }];

@@ -11,25 +11,25 @@
     var data = [{
         'y': DATA['valuePoisoningProbability@get.value_failures&extensions=true&messageLossProbability=0.02']['y'],
         'x': DATA['valuePoisoningProbability@get.value_failures&extensions=true&messageLossProbability=0.02']['x'],
-        'name': 'With modifications - value mismatch failures',
+        'name': 'With modifications - wrong value on lookup',
         'marker': {'color': colors[0]},
         'type': 'box'
     }, {
         'y': DATA['valuePoisoningProbability@get.value_failures&extensions=false&messageLossProbability=0.02']['y'],
         'x': DATA['valuePoisoningProbability@get.value_failures&extensions=false&messageLossProbability=0.02']['x'],
-        'name': 'Original algorithm - value mismatch failures',
+        'name': 'Original algorithm - wrong value on lookup',
         'marker': {'color': colors[1]},
         'type': 'box'
     },{
         'y': DATA['valuePoisoningProbability@get.failures&extensions=true&messageLossProbability=0.02']['y'],
         'x': DATA['valuePoisoningProbability@get.failures&extensions=true&messageLossProbability=0.02']['x'],
-        'name': 'With modifications - get operation failures',
+        'name': 'With modifications - lookup operation errors',
         'marker': {'color': colors[2]},
         'type': 'box'
     },{
         'y': DATA['valuePoisoningProbability@get.failures&extensions=false&messageLossProbability=0.02']['y'],
         'x': DATA['valuePoisoningProbability@get.failures&extensions=false&messageLossProbability=0.02']['x'],
-        'name': 'Original algorithm - get operation failures',
+        'name': 'Original algorithm - lookup operation errors',
         'marker': {'color': colors[3]},
         'type': 'box'
     }];
