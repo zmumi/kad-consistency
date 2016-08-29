@@ -1,6 +1,6 @@
 {
     "name": "kad-consistency",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Kad wrapper with consistency improvements",
     "main": "index.js",
     "repository": {
@@ -26,7 +26,7 @@
         "sinon": "^1.14.1"
     },
     "dependencies": {
-        "kad": "^1.5.11",
+        "kad": "^1.5.17",
         "async": "2.0.0-rc.3"
     }
 }
