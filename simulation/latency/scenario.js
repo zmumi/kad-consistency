@@ -44,10 +44,10 @@ var mutators = [
       return params
     }
   }, {
-    values: [0, 10, 20, 30, 40, 50, 60, 70, 80],
+    values: [0, 10, 20, 30, 40, 50, 60],
     setter: function (params, val) {
       params.transportLatency = val;
-      params.peerOptions.requestTimeout = val + 60;
+      params.peerOptions.requestTimeout = val * 4 ;
       return params
     }
   }
