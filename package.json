@@ -1,6 +1,6 @@
 {
     "name": "kad-consistency",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Kad wrapper with consistency improvements",
     "main": "index.js",
     "repository": {
@@ -12,6 +12,9 @@
         "consistency",
         "kademlia"
     ],
+    "scripts": {
+        "test": "./node_modules/.bin/mocha"
+    },
     "author": "Michał Żmuda <zmu.michal@gmail.com>",
     "license": "LGPL-3.0",
     "bugs": {
